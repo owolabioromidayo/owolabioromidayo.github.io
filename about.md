@@ -85,15 +85,9 @@ Wrote a Query Language Interpreter loosely based on the Gremlin Query Language.
 Implemented various graph query operations and a shell.
 
 ***
-### Cpplox
-
-Wrote a tree-walk interpreter for a dynamically typed language using Recursive Descent Parsing from scratch Structured multiple virtual classes for the interpreter, parser, and scanner stages and resolved memory faults with Valgrind. Implemented lexical scoping and resolution, control flow, functions, and closures.
-
-[[Code]](https://github.com/owolabioromidayo/cpplox)
-
-***
 ### Other Projects
 
+<b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
 <b>QuasarPay </b>: Audio payment chatbot using whisper and DistillBERT. Autoencoders for Fraud Detection. [[Link]](https://github.com/QuasarPay)
 <br/>
 <br/>
