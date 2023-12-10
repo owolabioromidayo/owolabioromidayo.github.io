@@ -5,35 +5,31 @@ author: Dayo
 ---
 
 
-Some time ago, I followed Part II of Crafting Interpreters by Rob Nystrom, and implemented a tree walk interpreter in C++ [link](https://github.com/owolabioromidayo/cpplox). I didn’t put any effort into performance or memory management as I just wanted it to work, which it did for all of the tests. 
+Some time ago, I followed Part II of [Crafting Interpreters](https://craftinginterpreters.com/) by Rob Nystrom and implemented a tree walk interpreter in C++ [link](https://github.com/owolabioromidayo/cpplox). I didn’t put any effort into performance or memory management as I just wanted it to work, which it did for all of the tests. 
 
 Except one. 
 
-During the introduction to Part III of the book, which involves writing a bytecode virtual machine, Rob uses the example of fib(40) to show how a tree-walk interpreter is fundamentally the wrong design to tackle this sort of problem. And I understand that. But what I didn’t understand was how his Java implementation took 72 seconds to run (took *79.4 secs* on my system) and my C++ implementation couldn’t even execute it because it kept getting killed by the OS.
-
+During the introduction to Part III of the book, which involves writing a bytecode virtual machine, Rob uses the example of fib(40) to show how a tree-walk interpreter is fundamentally the wrong design to tackle this sort of problem. And I understand that. But what I didn’t understand was how his Java implementation took 72 seconds to run (took *79.4 seconds* on my system) and my C++ implementation couldn’t even execute it because it kept getting killed by the OS.
 
 
 ### > A Quick Note
 
-The interpreter pipeline is staged as Scanner -> Parser -> Resolver -> Interpreter. Only the interpreter was having performance issues.
+The interpreter pipeline is staged as **Scanner -> Parser -> Resolver -> Interpreter **. Only the interpreter was having performance issues.
 
-### > Yes some things come to mind
+### > Yes, some things come to mind
 
-Before I go down this rabbit hole, I know that these are the simple and reasonable solutions.
+Before I go down this rabbit hole, I know that these are simple and reasonable solutions.
 
-1. Just write an iterative solution, dude! **Thats no fun.** 
+1. Just write an iterative solution, dude! **That's no fun.** 
 2. Write the bytecode compiler part of the project.
 I already tested this. clox performs this task in *10 seconds*.
-How? Mark and sweep garbage collection? Flattening out the recursive calls?
+How? Mark and sweep garbage collection. And flattening out the recursive calls. 
 
-3. Memory pooling. Basically reimplementing my own allocator to allow for chunk-based alloc/dealloc. Won't work for our pain point (recursive calls) due to its stack based nature. For a tree like fibonacci it might help after we've gone through the worst of it (fib (39)) but its a stupid solution because I would've just memoized at that point.
+3. **Memory pooling:**  Reimplementing my own allocator to allow for chunk-based alloc/dealloc. Won't work for our pain point (recursive calls) due to its stack-based nature. For a tree like fibonacci it might help after we've gone through the worst of it (fib (39)). It seems a stupid solution because I would've just memoized at that point.
 
 
 
 ### > Of course, in pure C++ it computes.
-The real difference is the overhead of execution and the hidden runtime nature of the program from the compiler.
-
-<br /> 
 
 <figure>
   <img src="/images/fib/purecppcode.png" alt="my alt text"/>
@@ -45,19 +41,23 @@ The real difference is the overhead of execution and the hidden runtime nature o
   <img src="/images/fib/purecppoutput.png" alt="my alt text"/>
 </figure>
 
+The real difference is the overhead of execution and the hidden runtime nature of the program from the compiler.
+
+<br /> 
+
 
 ### > Investigating the problem
 
 ### > Why am I interested?
 
- This is probably my first time experiencing a notable perf limitation. Not just low FPS or slow progression, but actual refusal to compute. The only other thing like this I have experienced is Pythons max recursion depth
+ This is probably my first time experiencing a notable perf limitation. Not just low FPS or slow progression, but actual refusal to compute. The only other thing like this I have experienced is Python's max recursion depth.
 
-Fundamentally, I knew it was a memory error, because why else would it get killed in that manner. If it was just a CPU performance issue, it would have eventually computed. If it was an implementation bug, I would have gotten some result. The OS was killing my process because it was hogging resources.
+Fundamentally, I knew it was a memory error, because why else would it get killed in that manner? If it was just a CPU performance issue, it would have eventually computed. If it was an implementation bug, I would have gotten a result. The OS was killing my process because it was hogging resources.
 
 ### > My Ignorance
-Of course the first thing I did was find out just how badly my program was performing memory wise. So I fired up valgrind and did a leak check. It was abysmal to say the least. But I was expecting. To cut it short, I had neglected use of smart pointers throughout and went with manual memory management, while avoiding freeing any memory at all.
+Of course, the first thing I did was find out just how badly my program was performing memory-wise. So I fired up Valgrind and did a leak check. It was abysmal, to say the least. But I was expecting it. To cut it short, I had neglected the use of smart pointers throughout and went with manual memory management while avoiding freeing any memory at all.
 
-There were some reasons. Not justifiable but nonetheless reasons. The first had to do with my code structure. I was using derived classes throughout my implementation for my expressions and statements. This was to allow a unified manner of access for my ExprVisitor and StmtVisitor classes. Well, C++ does not like this too much. I was fine using dynamic casts explicitly when I knew what the derived class actually was i.e.
+There were reasons—though not entirely justifiable, they were reasons nonetheless. The first had to do with my code structure. I was using derived classes throughout my implementation for my expressions and statements. This was to allow a unified manner of access for my ExprVisitor and StmtVisitor classes. Well, C++ does not like this too much. I was fine using dynamic casts explicitly when I knew what the derived class was i.e.
 
 
 
@@ -69,11 +69,11 @@ I had a lot of virtual classes littered through my code. And at the time, when I
 
 ```std::make_shared<Base>() ```
 
-It wasnt allowed because you cant instantiate an abstract object. But recently I found that there might be a way around this : 
+It wasn't allowed because you cannot instantiate an abstract object. But recently I found that there might be a way around this : 
 
 ```std::shared_ptr<Base>()```
 
-I looked at some other implementations and the ones I saw made me believe I would have to scatter ```std::any``` everywhere to make it work. Which I strongly didnt want. 
+I looked at some other implementations and the ones I saw made me believe I would have to scatter ```std::any``` everywhere to make it work. Which I strongly didn't want. 
 
 But this was not true.
 
@@ -82,22 +82,22 @@ I got a clean C++ implementation of the lox tree-walk interpreter to test alongs
 
 ### > Trying a proper implementation
 
-I thought the issue was purely with my own horrible implementation. I found a well written C++ implementation of the lox interpreter and gave it fib(40) to chew on. But alas, it did not work either
+I thought the issue was purely with my horrible implementation. I found a well-written C++ implementation of the lox interpreter and gave it fib(40) to chew on. But alas, it did not work either
 
 
 ### > Finding out why
 
-Well this made me really neglect any hope of improving my C++ implementation, as I was more drawn to why this was happening. Was Java actually better than C++? I couldn’t bring myself to believe it. I had originally thought implementing the lox interpreter in C++ would win me better performance. I had been too naive.
+Well, this made me neglect any hope of improving my C++ implementation, as I was more drawn to why this was happening. Was Java better than C++? I couldn’t bring myself to believe it. I had originally thought implementing the lox interpreter in C++ would give me better performance. I had been too naive.
 
 I started investigating why this was happening.
 
 ### > Java vs C++
 
-The two important differences between Java and C++ in this situation would be the JIT and GC. Since C++ uses Ahead of Time Compilation, and the only code presented to it doesnt hint anything about the nature of the programs that will be executed, it cannot outperform Java's Just In Time compilation system, which selectively compiles hot functions during execution. (more detail)
+The two important differences between Java and C++ in this situation would be the JIT and GC. Since C++ uses Ahead-of-Time Compilation, and the only code presented to it doesn't hint anything about the nature of the programs that will be executed, it cannot outperform Java's Just In Time compilation system, which selectively compiles hot functions during execution. (more detail)
 
-The second important difference between Java and C++ would be garbage collection. In short, Java uses a mark and sweep algorithm for garbage collection during GC pauses and this fares well for mass alloc/dealloc of small objects while C++ requires manual management and temporary allocs/deallocs especially on the heap are expensive, even more so for hundreds of objects. 
+The second important difference between Java and C++ would be garbage collection. In short, Java uses a mark and sweep algorithm for garbage collection during GC pauses and this fares well for mass alloc/dealloc of small objects while C++ requires manual management and temporary allocs/deallocs, especially on the heap are expensive, even more so for hundreds of objects. 
 
-While this is all nice and good, I tried to find more information on how exactly this JIT magic works for any JVM, and while there are some open source JVMs, I didnt go too deep. I looked at some books to maybe see some general algorithms, and I didn't really find what I was looking for. I learnt about the tradeoffs between running on the VM and compilation, hotspots and running JIT in tandem, but it wasnt enough. Still magic to me.
+While this is all nice and good, I tried to find more information on how exactly this JIT magic works for any JVM, and while there are some open-source JVMs, I didn't go too deep. I read some books hoping to gain more insight into the JIT's workings, but I didn't find what I was looking for. I learnt about the tradeoffs between running on the VM and compilation, hotspots and running JIT in tandem, but it wasn't enough. Still magic to me.
 
 ### > The real culprit (temp allocs/deallocs)
 
@@ -108,15 +108,15 @@ While this is all nice and good, I tried to find more information on how exactly
   <figcaption>heaptrack memory perf for 3 implementations </figcaption>
 </figure>
 
-Dumping the clox, jlox and my c++ implementation into heaptrack, I ssaw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
+Dumping the clox, jlox and my c++ implementation into heaptrack, I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
 
 
 <figure>
   <img src="/images/fib/heaptrack_ui_cpp.png" alt="my alt text"/>
-  <figcaption>heaptrack memory perf for 3 implementations </figcaption>
+  <figcaption>heaptrack C++ impl UI view </figcaption>
 </figure>
 
-Looking inside the UI for more information, this is what the path of memory usage looks like. THe bulk of new memory creation obviously comes from the recursive hotpath. No single function can really be pinned as the source of
+Looking inside the UI for more information, this is what the path of memory usage looks like. The bulk of new memory creation obviously comes from the recursive hotpath. No single function can really be pinned as the source of
 all memory problems (from what I'm seeing), as the call chain is extremely long.
 
 <figure>
@@ -124,7 +124,7 @@ all memory problems (from what I'm seeing), as the call chain is extremely long.
   <figcaption>heaptrack  on fib(20) and fib(30) respectively for clean c++ impl</figcaption>
 </figure>
 
-This was also the case for the clean c++ implementation I found with way less leaks but still orders of magnitudes higher allocations. It couldn't even
+This was also the case for the clean C++ implementation I found with way less leaks but still orders of magnitudes higher allocations. It couldn't even
 run fib(35). 
 
 
@@ -143,7 +143,7 @@ Well, I was interested in how the new favourite child of systems programming (Ru
   <figcaption>Me waiting for fib(40) to compute</figcaption>
 </figure>
 
-The ```ClockCallable``` of the implementation was broken but that was fine. It computed fib(30) in less than 30 seconds. I almost gave up on fib(40) being computed but it finished after 12 minutes.  
+The ```ClockCallable``` of the implementation was broken but that was fine. It computed fib(30) in less than 30 seconds. I almost gave up on fib(40) being computed but it finished after **12 minutes**.  
 To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes). But it was funny to experience.
 
 
