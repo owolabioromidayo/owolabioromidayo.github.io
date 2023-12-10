@@ -129,7 +129,7 @@ run fib(35).
 
 
 
-### > Bringing the favourite son in
+### > Trying Rust
 
 Well, I was interested in how the new favourite child of systems programming (Rust) would perform. Maybe the Rust femobys were trying to hide their tracks but every reasonably completed implemetation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch.  And aha!
 
