@@ -39,6 +39,8 @@ The real difference is the overhead of execution and the hidden runtime nature o
   <img src="/images/fib/purecppcode.png" alt="my alt text"/>
 </figure>
 
+<br /> 
+
 <figure>
   <img src="/images/fib/purecppoutput.png" alt="my alt text"/>
 </figure>
@@ -245,21 +247,21 @@ there are already obvious solutions glaring at me. But my mind cannot reconcile 
 I should clean up my C++ implementation and try profiling the effects of memory pooling. I believe memory pooling will have an effect on heap allocations and might be partially suited to the tree-like nature of the
 fibonacci problem. This would make it easier to find the size of the pool and realloc when necessary.
 
-Hoping to dig deeper into this. It was fun! 
+Hoping to dig deeper into this.
 
 
 ### > Questions
 
-I would appreciate if anyone could please answer any of the following questions for me
+I would appreciate any answers for the following questions  
 
-1. Blanket question : Why do you think this is happening?
+1. Why do you think this is happening?
 2. Where do you think the root of this issue is from (stack, heap, ...) and why?
 3. Do you know of any profiling tools I can use for programs that crash like this (excluding GDB) ?
 
 I would also appreciate any interesting commentary. Thank you!
 
 
-### > Footnotes
+### > Footnotes (Screenshots)
 
 1. ![something](/images/fib/constexpr.png)
 1. ![something](/images/fib/jit_footnote.png)
