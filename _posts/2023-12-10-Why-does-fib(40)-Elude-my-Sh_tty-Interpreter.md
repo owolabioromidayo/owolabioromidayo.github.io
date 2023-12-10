@@ -12,6 +12,11 @@ Except one.
 During the introduction to Part III of the book, which involves writing a bytecode virtual machine, Rob uses the example of fib(40) to show how a tree-walk interpreter is fundamentally the wrong design to tackle this sort of problem. And I understand that. But what I didn’t understand was how his Java implementation took 72 seconds to run (took *79.4 seconds* on my system) and my C++ implementation couldn’t even execute it because it kept getting killed by the OS.
 
 
+### TL;DR:
+C++ performance is hairy for tons of small object allocations / deallocations especially when the compiler cannot intuit what you are trying to do Ahead-of-Time. Memory pools might resolve this issue but for nested calls finding free objects to acquire is tougher. Rust also performs poorly in this scenario. Java is king at this kind of problem thanks to the JIT and Garbage Colector. 
+
+
+
 ### > A Quick Note
 
 The interpreter pipeline is staged as **Scanner -> Parser -> Resolver -> Interpreter **. Only the interpreter was having performance issues.
