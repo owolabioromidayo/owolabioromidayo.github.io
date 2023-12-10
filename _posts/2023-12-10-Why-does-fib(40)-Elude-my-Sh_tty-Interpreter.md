@@ -62,14 +62,11 @@ Fundamentally, I knew it was a memory error, because why else would it get kille
 ### > My Ignorance
 Of course, the first thing I did was find out just how badly my program was performing memory-wise. So I fired up Valgrind and did a leak check. It was abysmal, to say the least. But I was expecting it. To cut it short, I had neglected the use of smart pointers throughout and went with manual memory management while avoiding freeing any memory at all.
 
-There were reasons—though not entirely justifiable, they were reasons nonetheless. The first had to do with my code structure. I was using derived classes throughout my implementation for my expressions and statements. This was to allow a unified manner of access for my ExprVisitor and StmtVisitor classes. Well, C++ does not like this too much. I was fine using dynamic casts explicitly when I knew what the derived class was i.e.
+There were reasons—though not entirely justifiable, they were reasons nonetheless. The first had to do with my code structure. I was using derived classes throughout my implementation for my expressions and statements. This was to allow a unified manner of access for my ExprVisitor and StmtVisitor classes. Well, C++ does not like this too much. I was fine using dynamic casts explicitly when I knew what the derived class was i.e. 
 
-
-
-<figure>
-  <img src="/images/fib/dyncast.png" alt="my alt text"/>
-</figure>
-
+<br /> 
+```return new Call(calee, dynamic_cast<Variable*>(callee)->name, arguments);```
+<br /> 
 I had a lot of virtual classes littered through my code. And at the time, when I tried to create a shared pointer for a virtual class, like so: 
 
 ```std::make_shared<Base>() ```
