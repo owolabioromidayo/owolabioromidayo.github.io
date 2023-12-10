@@ -27,7 +27,7 @@ Before I go down this rabbit hole, I know that these are simple and reasonable s
 
 1. Just write an iterative solution, dude! **That's no fun.** 
 2. Write the bytecode compiler part of the project.
-I already tested this. clox performs this task in *10 seconds*.
+I already tested this. clox performs this task in **10 seconds**.
 How? Mark and sweep garbage collection. And flattening out the recursive calls. 
 
 3. **Memory pooling:**  Reimplementing my own allocator to allow for chunk-based alloc/dealloc. Won't work for our pain point (recursive calls) due to its stack-based nature. For a tree like fibonacci it might help after we've gone through the worst of it (fib (39)). It seems a stupid solution because I would've just memoized at that point.
@@ -48,9 +48,6 @@ How? Mark and sweep garbage collection. And flattening out the recursive calls.
 
 The real difference is the overhead of execution and the hidden runtime nature of the program from the compiler.
 
-<br /> 
-
-
 ### > Investigating the problem
 
 ### > Why am I interested?
@@ -64,9 +61,8 @@ Of course, the first thing I did was find out just how badly my program was perf
 
 There were reasons—though not entirely justifiable, they were reasons nonetheless. The first had to do with my code structure. I was using derived classes throughout my implementation for my expressions and statements. This was to allow a unified manner of access for my ExprVisitor and StmtVisitor classes. Well, C++ does not like this too much. I was fine using dynamic casts explicitly when I knew what the derived class was i.e. 
 
-<br /> 
 ```return new Call(calee, dynamic_cast<Variable*>(callee)->name, arguments);```
-<br /> 
+
 I had a lot of virtual classes littered through my code. And at the time, when I tried to create a shared pointer for a virtual class, like so: 
 
 ```std::make_shared<Base>() ```
@@ -79,7 +75,7 @@ I looked at some other implementations and the ones I saw made me believe I woul
 
 But this was not true.
 
-I got a clean C++ implementation of the lox tree-walk interpreter to test alongside [here](https://github.com/zanders3/lox).
+I eventually got a clean C++ implementation of the lox tree-walk interpreter to test alongside [here](https://github.com/zanders3/lox).
 
 
 ### > Trying a proper implementation
@@ -153,7 +149,7 @@ I was interested in how the new favourite child of systems programming (Rust) wo
 The ```ClockCallable``` of the implementation was broken but that was fine. It computed fib(30) in less than 30 seconds. I almost gave up on fib(40) being computed but it finished after **12 minutes**.  
 To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes).
 
-The Rust implementation beat the clean C++ implementation by **3x**.
+The Rust implementation beat the clean C++ implementation by **3x**. This was the Rust release build against C++ with no optimization settings. So not completely fair.
 
 
 ### > More analysis 
@@ -195,7 +191,7 @@ I tried some other things in hopes my program would not get killed.
 
 ![temp](/images/fib/02flag.png)
 
-Just using the ```-O2``` and ```-finline-functions ``` compilation flags gave me 3x performance on ```fib(30)```. Didn't solve the main problem.
+Just using the ```-O2``` and ```-finline-functions ``` compilation flags gave me **3x** performance on ```fib(30)```. 
 
 
 <h5> 2. Profile guided optimization </h5>
@@ -204,8 +200,7 @@ The JIT compromise for AOT compilation would be profile-guided optimization. I d
 ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` to generate the executable for profiling, which I then ran with the preferred scenario ```./cpp_prof.out src/a.lox``` which generated a gcda file.
 The final executable was then generated ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` and it knew to use the corresponding gcda file for the executable name.
 
-While this worked for optimizing the specific example I gave it which was fib(30) from *21 secs* to *13 secs* , it still failed on fib(40). 
-
+While this worked for optimizing the specific example I gave it which was fib(30) from *21 secs* to *13 secs* , it obiously did not help my leaky implementation attain fib(40).
 <br />
 
 <h5> 3. Changing allocators </h5>
@@ -214,7 +209,8 @@ While this worked for optimizing the specific example I gave it which was fib(30
 I decided to try out TCmalloc, mainly for the sake of trying out another allocator. After all, TCMalloc was created with the aim of faster multi-threaded memory management, which wasn't the issue at hand. Needless to say, it failed.
 
 
-None of these worked.
+While none of these made my leaky implementation suddenly viable, it showed me possible performance improvements for the clean C++ implementation. I believe a **3-4x** boost is possible, putting it
+on par with Rust. 
 
 
 ### > Stack fiddling
