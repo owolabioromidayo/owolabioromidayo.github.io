@@ -105,33 +105,31 @@ While this is all nice and good, I tried to find more information on how exactly
 
 <figure>
   <img src="/images/fib/allocs.png" alt="my alt text"/>
-  <figcaption>heaptrack memory perf for 3 implementations </figcaption>
+  <figcaption>Heaptrack memory perf for 3 implementations </figcaption>
 </figure>
 
-Dumping the clox, jlox and my c++ implementation into heaptrack, I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
+Dumping the clox, jlox and my c++ implementation into [Heaptrack](https://github.com/KDE/Heaptrack), I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
 
 
 <figure>
-  <img src="/images/fib/heaptrack_ui_cpp.png" alt="my alt text"/>
-  <figcaption>heaptrack C++ impl UI view </figcaption>
+  <img src="/images/fib/Heaptrack_ui_cpp.png" alt="my alt text"/>
+  <figcaption>Heaptrack C++ impl UI view </figcaption>
 </figure>
 
-Looking inside the UI for more information, this is what the path of memory usage looks like. The bulk of new memory creation obviously comes from the recursive hotpath. No single function can really be pinned as the source of
+Looking inside the UI for more information, this is what the path of memory usage looks like. The bulk of new memory creation obviously comes from the recursive hot path. No single function can really be pinned as the source of
 all memory problems (from what I'm seeing), as the call chain is extremely long.
 
 <figure>
   <img src="/images/fib/clean_allocs.png" alt="my alt text"/>
-  <figcaption>heaptrack  on fib(20) and fib(30) respectively for clean c++ impl</figcaption>
+  <figcaption>Heaptrack  on fib(20) and fib(30) respectively for clean c++ impl</figcaption>
 </figure>
 
-This was also the case for the clean C++ implementation I found with way less leaks but still orders of magnitudes higher allocations. It couldn't even
-run fib(35). 
-
+This was also the case for the clean C++ implementation I found with much fewer leaks than my C++ implementation but still orders of magnitude higher allocations than the jlox/clox binaries. It couldn't even run fib(35). 
 
 
 ### > Trying Rust
 
-Well, I was interested in how the new favourite child of systems programming (Rust) would perform. Maybe the Rust femobys were trying to hide their tracks but every reasonably completed implemetation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch.  And aha!
+Well, I was interested in how the new favourite child of systems programming (Rust) would perform. Maybe they were trying to hide their tracks but every reasonably completed implementation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch.  And surprise!
 
 
 <figure>
@@ -144,37 +142,37 @@ Well, I was interested in how the new favourite child of systems programming (Ru
 </figure>
 
 The ```ClockCallable``` of the implementation was broken but that was fine. It computed fib(30) in less than 30 seconds. I almost gave up on fib(40) being computed but it finished after **12 minutes**.  
-To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes). But it was funny to experience.
+To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes). But it was fun to experience.
 
 
-### > More analysis / benchmarking 
+### > More analysis 
 
-Well I got into C++ because I wanted to know more about performance computing and limitations, and this was the perfect opportunity to try all the tools I hadnt before. So I fired up heaptrack and flamegraph for my shitty C++ interpreter, jlox and clox, to compare heap memory usage and performance. But in all honesty, I just wanted to see some nice visuals.
+ I got into C++ because I wanted to know more about performance computing and limitations, and this was the perfect opportunity to try all the tools I hadn't before. So I fired up Heaptrack and FlameGraph for my shitty C++ interpreter, jlox and clox, to compare heap memory usage and performance. But in all honesty, I just wanted to see some nice visuals.
 
 
-<h5> Flamegraphs </h5>
+<h5> FlameGraphs </h5>
 
-I decide to compare the flamegraphs of my cpp implementation to the java implementation to learn more about the nature of the problem.
+I decide to compare the FlameGraphs of my cpp implementation to the java implementation to learn more about the nature of the problem.
 
 
 <figure>
   <img src="/images/fib/flamecpp1.png" alt="my alt text"/>
-  <figcaption>C++ Flamegraph</figcaption>
+  <figcaption>C++ FlameGraph</figcaption>
 </figure>
 
 <figure>
   <img src="/images/fib/flamecpp2.png" alt="my alt text"/>
-  <figcaption>C++ Flamegraph Zoomed In</figcaption>
+  <figcaption>C++ FlameGraph Zoomed In</figcaption>
 </figure>
 
 <figure>
   <img src="/images/fib/flamejava.png" alt="my alt text"/>
-  <figcaption>Java Flamegraph</figcaption>
+  <figcaption>Java FlameGraph</figcaption>
 </figure>
 
 <figure>
   <img src="/images/fib/flamejava2.png" alt="my alt text"/>
-  <figcaption>Java Flamegraph Zoomed In</figcaption>
+  <figcaption>Java FlameGraph Zoomed In</figcaption>
 </figure>
 
 I couldn't really make sense of the stark differences between the two. From C++ I could easily see the recursive function calls and tree-walking
