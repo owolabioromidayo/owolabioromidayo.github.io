@@ -4,22 +4,24 @@ title: Why Does fib(40) Elude My Sh*tty Interpreter??
 author: Dayo
 ---
 
-
-Some months ago, I followed Part II of [Crafting Interpreters](https://craftinginterpreters.com/) by Rob Nystrom and implemented a tree walk interpreter in C++ [link](https://github.com/owolabioromidayo/cpplox). I didn’t put any effort into performance or memory management as I just wanted it to work, which it did for all of the tests. 
-
-Except one. 
-
-During the introduction to Part III of the book, which involves writing a bytecode virtual machine, Rob uses the example of fib(40) to show how a tree-walk interpreter is fundamentally the wrong design to tackle this sort of problem. And I understand that. But what I didn’t understand was how his Java implementation took 72 seconds to run (took *79.4 seconds* on my system) and my C++ implementation couldn’t even execute it because it kept getting killed by the OS.
-
-
 ### > TL;DR:
 C++ performance is hairy for tons of small object allocations / deallocations especially when the compiler cannot intuit what you are trying to do Ahead-of-Time. Memory pools might resolve this issue but for nested calls finding free objects to acquire is tougher. Rust also performs poorly in this scenario. The JVM is king at this kind of problem thanks to the JIT and Garbage Colector. 
 
+
+### ? Introduction
+Some months ago, I decided to walk through a popular programming languages book called [Crafting Interpreters](https://craftinginterpreters.com) by Rob Nystrom. The book teaches you to build an interpreter for a dynamic language called Lox in Java. I followed along and wrote [my implementation](https://github.com/owolabioromidayo/cpplox) in C++, hoping for greater performance. 
+
+There are a couple common ways to structure interpreters i.e. bytecode, tree-walk, stack. Rob uses a **"tree-walk"** approach, where the parser transforms the code into a tree data structure. The interpreter then recursively walks each node in this tree and executes the corresponding commands.
+
+This works pretty well for simple scripts. but during the introduction to Part III of the book, which involves writing a bytecode virtual machine, Rob uses the example of fib(40) to show how a tree-walk interpreter is fundamentally the wrong design to tackle this sort of problem. And I understand that. But what I didn’t understand was how his Java implementation took 72 seconds to run (took *79.4 seconds* on my system) and my C++ implementation couldn’t even execute it because it kept getting killed by the OS.
+
+I figured there had to be something going on performance-wise that I was missing between Java and C++. So I decided to dig deeper into why calculating  C++ interpreter performed woefully on fib(40), while Java handled it relatively easily.
 
 
 ### > A Quick Note
 
 The interpreter pipeline is staged as **Scanner -> Parser -> Resolver -> Interpreter**. Only the interpreter was having performance issues.
+
 
 ### > Yes, some things come to mind
 
@@ -27,10 +29,10 @@ Before I go down this rabbit hole, I know that these are simple and reasonable s
 
 1. Just write an iterative solution, dude! **That's no fun.** 
 2. Write the bytecode compiler part of the project.
-I already tested this. clox performs this task in **10 seconds**.
-How? Mark and sweep garbage collection. And flattening out the recursive calls. 
+I already tested this. clox, which is the bytecode VM implementation of the Lox interpreter written in C, performs this task in **10 seconds**.
+How? Mark and sweep garbage collection and recursive call flattening (clox is stack-based) were implemented. Much less overhead. 
 
-3. **Memory pooling:**  Reimplementing my own allocator to allow for chunk-based alloc/dealloc. Won't work for our pain point (recursive calls) due to its stack-based nature. For a tree like fibonacci it might help after we've gone through the worst of it (fib (39)). It seems a stupid solution because I would've just memoized at that point.
+3. **Memory pooling:**  This means reimplementing my own allocator to allow for chunk-based alloc/dealloc inside the program, as malloc is expensive. Won't work for our pain point (recursive calls) due to its stack-based nature. For a tree like fibonacci it might help after we've gone through the worst of it (fib (39)). It seems a stupid solution because I would've just memoized at that point.
 
 
 
@@ -52,7 +54,7 @@ The real difference is the overhead of execution and the hidden runtime nature o
 
 ### > Why am I interested?
 
- This is probably my first time experiencing a notable perf limitation. Not just low FPS or slow progression, but actual refusal to compute. The only other thing like this I have experienced is Python's max recursion depth.
+ This is probably my first time experiencing a notable performance limitation. Not just low FPS or slow progression, but actual refusal to compute. The only other thing like this I have experienced is Python's max recursion depth.
 
 Fundamentally, I knew it was a memory error, because why else would it get killed in that manner? If it was just a CPU performance issue, it would have eventually computed. If it was an implementation bug, I would have gotten a result. The OS was killing my process because it was hogging resources.
 
@@ -80,23 +82,23 @@ I eventually got a clean C++ implementation of the lox tree-walk interpreter to 
 
 ### > Trying a proper implementation
 
-I thought the issue was purely with my horrible implementation. I found a well-written C++ implementation of the lox interpreter and gave it fib(40) to chew on.
+I thought the issue was purely with my leaky implementation. I found a well-written C++ implementation of the lox interpreter and gave it fib(40) to chew on.
 
 <figure>
   <img src="/images/fib/cpp_clean_fib_40.png" alt="my alt text"/>
   <figcaption>heaptrack analysis of fib(40) on clean C++ implementation</figcaption>
 </figure>
 
-The first couple of times I tried it, I held out no hope for it working. But just recently, I tried it again. And after **36 minutes**, it gave the correct answer.
+The first couple of times I tried it, I did not expect it to complete successfully. But just recently, I tried it again. And after **36 minutes**, it gave the correct answer.
 
-Just from the heaptrack analysis you can see that **921 million** allocation calls were made. This is an astronomical number. Yet it still managed to use only **103.2kB** heap memory at peak.
+Just from the  [heaptrack](https://github.com/KDE/heaptrack) analysis you can see that **921 million** allocation calls were made. This is an astronomical number. Yet it still managed to use only **103.2kB** heap memory at peak.
 For comparison, my leaky C++ implementation utilized **117MB** on **fib(25)** with **5.2 million** allocation calls. 
 
 
 
 ### > Why does it take so long.
 
-The time complexity of recursive fibonacci is ```Φ^n ≈ 1.618^n```. So fibonacci 40 takes **1363.57x** more time to compute. This matches up with an expected compute time of **1.584s** to compute `fib(25)` . Given my lack of memory management, we can assume memory scales by the same amount if not more. This is why my leaky implmentation got killed by the program.
+The time complexity of recursive fibonacci is `Φ^n ≈ 1.618^n`, `Φ` being the `golden ratio`. So fibonacci 40 takes **1363.57x** more time to compute. This matches up with an expected compute time of **1.584s** to compute `fib(25)` . Given my lack of memory management, we can assume memory scales by the same amount if not more. This is why my leaky implmentation got killed by the program.
 
 ### > Java vs C++
 
@@ -116,7 +118,8 @@ While this is all nice and good, I tried to find more information on how exactly
   <figcaption>heaptrack memory perf for 3 implementations </figcaption>
 </figure>
 
-Dumping the clox, jlox and my C++ implementation into [heaptrack](https://github.com/KDE/heaptrack), I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
+When I analyzed clox, jlox, and my C++ implementation with heaptrack, I noticed my C++ program allocated memory orders of magnitude more times than the other two for the fibonacci(30) test.
+
 
 <figure>
   <img src="/images/fib/heaptrack_ui_cpp.png" alt="my alt text"/>
@@ -134,7 +137,7 @@ This was also the case for the clean C++ implementation I found with much fewer 
 
 ### > Trying Rust
 
-I was interested in how the new favourite child of systems programming (Rust) would perform. Maybe they were trying to hide their tracks but every reasonably completed implementation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch. 
+I was interested in how Rust would perform. Maybe they were trying to hide their tracks but every reasonably completed implementation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch. 
 
 
 <figure>
@@ -154,7 +157,7 @@ The Rust implementation beat the clean C++ implementation by **3x**. This was th
 
 ### > More analysis 
 
- I got into C++ because I wanted to know more about performance computing and limitations, and this was the perfect opportunity to try all the tools I hadn't before. So I fired up heaptrack and FlameGraph for my shitty C++ interpreter, jlox and clox, to compare heap memory usage and performance. But in all honesty, I just wanted to see some nice visuals.
+ I got into C++ because I wanted to learn more about performance, and this was the perfect opportunity to try all the tools I hadn't before. So I fired up heaptrack and FlameGraph for my shitty C++ interpreter, jlox and clox, to compare heap memory usage and performance. But in all honesty, I just wanted to see some nice visuals.
 
 
 <h5> Flame Graphs </h5>
@@ -179,7 +182,7 @@ The Rust implementation beat the clean C++ implementation by **3x**. This was th
   <figcaption>Java FlameGraph Zoomed In</figcaption>
 </figure>
 
-Comparing the flame graphs of my C++ implementation and the Java implementation I couldn't really make sense of the differences between the two. From C++ I could easily see the recursive function calls and tree-walking as a result of the fibonacci calls, but for Java it was completely flat and the labels weren't helping either. What I did find to be weird were the 
+Comparing the flame graphs of my C++ implementation and the Java implementation, I couldn't really make sense of the differences between the two. From C++ I could easily see the recursive function calls and tree-walking as a result of the fibonacci calls, but for Java it was completely flat and the labels weren't helping either. What I did find to be weird were the 
 extremely thin graph stacks extending upwards and coming downwards immediately. Yet the only information waiting there for me wasn't at all helpful.
 
 
@@ -188,6 +191,7 @@ extremely thin graph stacks extending upwards and coming downwards immediately. 
 I tried some other things in hopes my program would not get killed. 
 
 <h5> 1. Aggressive compilation flags </h5>
+g++ has different optimization levels with slower build times. The default flag is `-O0` which is unoptimized and mainly for debugging, but it goes up to `-O3` and `-Ofast`.
 
 ![temp](/images/fib/02flag.png)
 
@@ -196,7 +200,7 @@ Just using the ```-O2``` and ```-finline-functions ``` compilation flags gave me
 
 <h5> 2. Profile guided optimization </h5>
 
-The JIT compromise for AOT compilation would be profile-guided optimization. I did try this, using 
+The JIT compromise for AOT compilation would be profile-guided optimization. What this does is guide the AOT compiler to optimize for some specific use-case. I did this using 
 ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` to generate the executable for profiling, which I then ran with the preferred scenario ```./cpp_prof.out src/a.lox``` which generated a gcda file.
 The final executable was then generated ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` and it knew to use the corresponding gcda file for the executable name.
 
@@ -221,7 +225,7 @@ I wanted to see if changing the stack size would have any effects on the program
   <img src="/images/fib/rlimits.png" alt="my alt text"/>
 </figure>
 
-I was able to change the program stack size using rlimit. I changed the soft limit to a whopping 600MB but it didn't affect my results.
+I was able to change the program stack size using [rlimit](https://linux.die.net/man/2/setrlimit) which are linux syscalls for changing resource limits. I changed the soft limit to a whopping 600MB but it didn't affect my results.
 
 
 I tried out some stack analysis tools, using data I got from the ``` -fstack-usage -fdump-ipa-cgraph``` compilation flags and this (tool)[https://github.com/sharkfox/stack-usage]. 
@@ -244,9 +248,9 @@ I was expecting a more detailed analysis from cppcheck as to why my program was 
 
 ### > Conclusion
 
-The JVM can be a performance wizard. Beats Rust by **10x** and C++ by **30x** in this scenario.
+The JVM can be a performance wizard. Beats Rust by **10x** and C++ by **30x** in this scenario due to JIT compilation and better performance of the GC for large-scale alloc/dealloc of small objects.
 <br />
-You should probably clean up your C++ code if you don't want it to get killed by the OS. Just saying. 
+Clean up your C++ code if you don't want it to get killed by the OS.
 
 
 ### > Footnotes (Screenshots)
