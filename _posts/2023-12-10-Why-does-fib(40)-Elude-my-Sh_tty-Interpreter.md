@@ -105,15 +105,15 @@ While this is all nice and good, I tried to find more information on how exactly
 
 <figure>
   <img src="/images/fib/allocs.png" alt="my alt text"/>
-  <figcaption>Heaptrack memory perf for 3 implementations </figcaption>
+  <figcaption>heaptrack memory perf for 3 implementations </figcaption>
 </figure>
 
-Dumping the clox, jlox and my c++ implementation into [Heaptrack](https://github.com/KDE/Heaptrack), I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
+Dumping the clox, jlox and my c++ implementation into [heaptrack](https://github.com/KDE/heaptrack), I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
 
 
 <figure>
-  <img src="/images/fib/Heaptrack_ui_cpp.png" alt="my alt text"/>
-  <figcaption>Heaptrack C++ impl UI view </figcaption>
+  <img src="/images/fib/heaptrack_ui_cpp.png" alt="my alt text"/>
+  <figcaption>heaptrack C++ impl UI view </figcaption>
 </figure>
 
 Looking inside the UI for more information, this is what the path of memory usage looks like. The bulk of new memory creation obviously comes from the recursive hot path. No single function can really be pinned as the source of
@@ -121,7 +121,7 @@ all memory problems (from what I'm seeing), as the call chain is extremely long.
 
 <figure>
   <img src="/images/fib/clean_allocs.png" alt="my alt text"/>
-  <figcaption>Heaptrack  on fib(20) and fib(30) respectively for clean c++ impl</figcaption>
+  <figcaption>heaptrack  on fib(20) and fib(30) respectively for clean c++ impl</figcaption>
 </figure>
 
 This was also the case for the clean C++ implementation I found with much fewer leaks than my C++ implementation but still orders of magnitude higher allocations than the jlox/clox binaries. It couldn't even run fib(35). 
@@ -147,12 +147,12 @@ To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled an
 
 ### > More analysis 
 
- I got into C++ because I wanted to know more about performance computing and limitations, and this was the perfect opportunity to try all the tools I hadn't before. So I fired up Heaptrack and FlameGraph for my shitty C++ interpreter, jlox and clox, to compare heap memory usage and performance. But in all honesty, I just wanted to see some nice visuals.
+ I got into C++ because I wanted to know more about performance computing and limitations, and this was the perfect opportunity to try all the tools I hadn't before. So I fired up heaptrack and FlameGraph for my shitty C++ interpreter, jlox and clox, to compare heap memory usage and performance. But in all honesty, I just wanted to see some nice visuals.
 
 
-<h5> FlameGraphs </h5>
+<h5> Flame Graphs </h5>
 
-I decide to compare the FlameGraphs of my cpp implementation to the java implementation to learn more about the nature of the problem.
+I decided to compare the flame graphs of my C++ implementation to the Java implementation to learn more about the nature of the problem.
 
 
 <figure>
@@ -176,8 +176,8 @@ I decide to compare the FlameGraphs of my cpp implementation to the java impleme
 </figure>
 
 I couldn't really make sense of the stark differences between the two. From C++ I could easily see the recursive function calls and tree-walking
-as a result of the fibonacci calls, but for java it was completely flat and the labels weren't helping either. What I did find to be weird were the 
-extremely thin graph stacks externing upwards and coming downwards immediately. Yet the only information waiting there for me wasn't at all helpful
+as a result of the fibonacci calls, but for Java it was completely flat and the labels weren't helping either. What I did find to be weird were the 
+extremely thin graph stacks extending upwards and coming downwards immediately. Yet the only information waiting there for me wasn't at all helpful
 
 It is important to note my peak heap memory usage for my C++ implementation was 117MB on fib(25) while the clean C++ implementation got 99.6kB on fib(30). Yet both still managed to fail on fib(40).
 
@@ -188,13 +188,13 @@ It is important to note my peak heap memory usage for my C++ implementation was 
 
 ![temp](/images/fib/02flag.png)
 
-Just using the ```-O2``` and ```-finline-functions ``` compilation flags  gave me 3x performance on ```fib(30)```. Didn't solve the main problem.
+Just using the ```-O2``` and ```-finline-functions ``` compilation flags gave me 3x performance on ```fib(30)```. Didn't solve the main problem.
 
 
 
 <h5> 2. Profile guided optimization </h5>
 
-The JIT compromise for AOT compilation would be profile guided optimization. I did try this, using 
+The JIT compromise for AOT compilation would be profile-guided optimization. I did try this, using 
 ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` to generate the executable for profiling, which I then ran with the preferred scenario ```./cpp_prof.out src/a.lox``` which generated a gcda file.
 The final executable was then generated ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` and it knew to use the corresponding gcda file for the executable name.
 
@@ -225,7 +225,7 @@ I tried out some stack analysis tools, using data I got from the ``` -fstack-usa
   <img src="/images/fib/stack_analysis.png" alt="my alt text"/>
 </figure>
 
-THe data I got back showed that over 99% of my function calls were not using any stack memory, and the maximum stack size of my program was 784 bytes. 
+The data I got back showed that over 99% of my function calls were not using any stack memory, and the maximum stack size of my program was 784 bytes. 
 
 
 ### > Trying cppcheck / static analysis
@@ -250,11 +250,11 @@ Hoping to dig deeper into this.
 
 ### > Questions
 
-I would appreciate any answers for the following questions  
+I would appreciate any answers to the following questions:
 
 1. Why do you think this is happening?
 2. Where do you think the root of this issue is from (stack, heap, ...) and why?
-3. Do you know of any profiling tools I can use for programs that crash like this (excluding GDB) ?
+3. Do you know of any profiling tools I can use for programs that crash like this (excluding GDB)?
 
 I would also appreciate any interesting commentary. Thank you!
 
