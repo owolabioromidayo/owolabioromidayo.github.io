@@ -13,7 +13,7 @@ During the introduction to Part III of the book, which involves writing a byteco
 
 
 ### > TL;DR:
-C++ performance is hairy for tons of small object allocations / deallocations especially when the compiler cannot intuit what you are trying to do Ahead-of-Time. Memory pools might resolve this issue but for nested calls finding free objects to acquire is tougher. Rust also performs poorly in this scenario. Java is king at this kind of problem thanks to the JIT and Garbage Colector. 
+C++ performance is hairy for tons of small object allocations / deallocations especially when the compiler cannot intuit what you are trying to do Ahead-of-Time. Memory pools might resolve this issue but for nested calls finding free objects to acquire is tougher. Rust also performs poorly in this scenario. The JVM is king at this kind of problem thanks to the JIT and Garbage Colector. 
 
 
 
@@ -84,16 +84,27 @@ I got a clean C++ implementation of the lox tree-walk interpreter to test alongs
 
 ### > Trying a proper implementation
 
-I thought the issue was purely with my horrible implementation. I found a well-written C++ implementation of the lox interpreter and gave it fib(40) to chew on. But alas, it did not work either
+I thought the issue was purely with my horrible implementation. I found a well-written C++ implementation of the lox interpreter and gave it fib(40) to chew on.
+
+<figure>
+  <img src="/images/fib/cpp_clean_fib_40.png" alt="my alt text"/>
+  <figcaption>heaptrack analysis of fib(40) on clean C++ implementation</figcaption>
+</figure>
+
+The first couple of times I tried it, I held out no hope for it working. But just recently, I tried it again. And after **36 minutes**, it gave the correct answer.
+
+Just from the heaptrack analysis you can see that **921 million** allocation calls were made. This is an astronomical number. Yet it still managed to use only **103.2kB** heap memory at peak.
+For comparison, my leaky C++ implementation utilized **117MB** on **fib(25)** with **5.2 million** allocation calls. 
 
 
-### > Finding out why
 
-Well, this made me neglect any hope of improving my C++ implementation, as I was more drawn to why this was happening. Was Java better than C++? I couldn’t bring myself to believe it. I had originally thought implementing the lox interpreter in C++ would give me better performance. I had been too naive.
+### > Why does it take so long.
 
-I started investigating why this was happening.
+The time complexity of recursive fibonacci is ```Φ^n ≈ 1.618^n```. So fibonacci 40 takes **1363.57x** more time to compute. This matches up with an expected compute time of **1.584s** to compute `fib(25)` . Given my lack of memory management, we can assume memory scales by the same amount if not more. This is why my leaky implmentation got killed by the program.
 
 ### > Java vs C++
+
+Now with that out of the way, the real question was to find why C++ performance lagged so far behind Java's.
 
 The two important differences between Java and C++ in this situation would be the JIT and GC. Since C++ uses Ahead-of-Time Compilation, and the only code presented to it doesn't hint anything about the nature of the programs that will be executed, it cannot outperform Java's Just In Time compilation system, which selectively compiles hot functions during execution. (more detail)
 
@@ -101,37 +112,33 @@ The second important difference between Java and C++ would be garbage collection
 
 While this is all nice and good, I tried to find more information on how exactly this JIT magic works for any JVM, and while there are some open-source JVMs, I didn't go too deep. I read some books hoping to gain more insight into the JIT's workings, but I didn't find what I was looking for. I learnt about the tradeoffs between running on the VM and compilation, hotspots and running JIT in tandem, but it wasn't enough. Still magic to me.
 
+
 ### > The real culprit (temp allocs/deallocs)
-
-
 
 <figure>
   <img src="/images/fib/allocs.png" alt="my alt text"/>
   <figcaption>heaptrack memory perf for 3 implementations </figcaption>
 </figure>
 
-Dumping the clox, jlox and my c++ implementation into [heaptrack](https://github.com/KDE/heaptrack), I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
-
+Dumping the clox, jlox and my C++ implementation into [heaptrack](https://github.com/KDE/heaptrack), I saw that the number of allocations made by the program for fibonacci(30) was orders of magnitude higher than for jlox and clox.
 
 <figure>
   <img src="/images/fib/heaptrack_ui_cpp.png" alt="my alt text"/>
   <figcaption>heaptrack C++ impl UI view </figcaption>
 </figure>
 
-Looking inside the UI for more information, this is what the path of memory usage looks like. The bulk of new memory creation obviously comes from the recursive hot path. No single function can really be pinned as the source of
-all memory problems (from what I'm seeing), as the call chain is extremely long.
+Looking inside the UI for more information, this is what the path of memory usage looks like. The bulk of new memory creation obviously comes from the recursive hot path. No single function can really be pinned as the source of all memory problems (from what I'm seeing), as the call chain is extremely long.
 
 <figure>
   <img src="/images/fib/clean_allocs.png" alt="my alt text"/>
   <figcaption>heaptrack  on fib(20) and fib(30) respectively for clean c++ impl</figcaption>
 </figure>
 
-This was also the case for the clean C++ implementation I found with much fewer leaks than my C++ implementation but still orders of magnitude higher allocations than the jlox/clox binaries. It couldn't even run fib(35). 
-
+This was also the case for the clean C++ implementation I found with much fewer leaks than my C++ implementation but still orders of magnitude higher allocations than the jlox/clox binaries. 
 
 ### > Trying Rust
 
-Well, I was interested in how the new favourite child of systems programming (Rust) would perform. Maybe they were trying to hide their tracks but every reasonably completed implementation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch.  And surprise!
+I was interested in how the new favourite child of systems programming (Rust) would perform. Maybe they were trying to hide their tracks but every reasonably completed implementation I saw did not stop at the interpreter. So I simply found a good enough one [link](https://github.com/jeschkies/lox-rs) and checked out the last interpreter branch. 
 
 
 <figure>
@@ -144,7 +151,9 @@ Well, I was interested in how the new favourite child of systems programming (Ru
 </figure>
 
 The ```ClockCallable``` of the implementation was broken but that was fine. It computed fib(30) in less than 30 seconds. I almost gave up on fib(40) being computed but it finished after **12 minutes**.  
-To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes). But it was fun to experience.
+To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes).
+
+The Rust implementation beat the clean C++ implementation by **3x**.
 
 
 ### > More analysis 
@@ -153,9 +162,6 @@ To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled an
 
 
 <h5> Flame Graphs </h5>
-
-I decided to compare the flame graphs of my C++ implementation to the Java implementation to learn more about the nature of the problem.
-
 
 <figure>
   <img src="/images/fib/flamecpp1.png" alt="my alt text"/>
@@ -177,21 +183,19 @@ I decided to compare the flame graphs of my C++ implementation to the Java imple
   <figcaption>Java FlameGraph Zoomed In</figcaption>
 </figure>
 
-I couldn't really make sense of the stark differences between the two. From C++ I could easily see the recursive function calls and tree-walking
-as a result of the fibonacci calls, but for Java it was completely flat and the labels weren't helping either. What I did find to be weird were the 
-extremely thin graph stacks extending upwards and coming downwards immediately. Yet the only information waiting there for me wasn't at all helpful
-
-It is important to note my peak heap memory usage for my C++ implementation was 117MB on fib(25) while the clean C++ implementation got 99.6kB on fib(30). Yet both still managed to fail on fib(40).
+Comparing the flame graphs of my C++ implementation and the Java implementation I couldn't really make sense of the differences between the two. From C++ I could easily see the recursive function calls and tree-walking as a result of the fibonacci calls, but for Java it was completely flat and the labels weren't helping either. What I did find to be weird were the 
+extremely thin graph stacks extending upwards and coming downwards immediately. Yet the only information waiting there for me wasn't at all helpful.
 
 
 ### > Trying to not get killed
+
+I tried some other things in hopes my program would not get killed. 
 
 <h5> 1. Aggressive compilation flags </h5>
 
 ![temp](/images/fib/02flag.png)
 
 Just using the ```-O2``` and ```-finline-functions ``` compilation flags gave me 3x performance on ```fib(30)```. Didn't solve the main problem.
-
 
 
 <h5> 2. Profile guided optimization </h5>
@@ -210,9 +214,12 @@ While this worked for optimizing the specific example I gave it which was fib(30
 I decided to try out TCmalloc, mainly for the sake of trying out another allocator. After all, TCMalloc was created with the aim of faster multi-threaded memory management, which wasn't the issue at hand. Needless to say, it failed.
 
 
+None of these worked.
 
 
-### > Measuring stack usage
+### > Stack fiddling
+
+I wanted to see if changing the stack size would have any effects on the program.
 
 <figure>
   <img src="/images/fib/rlimits.png" alt="my alt text"/>
@@ -227,7 +234,7 @@ I tried out some stack analysis tools, using data I got from the ``` -fstack-usa
   <img src="/images/fib/stack_analysis.png" alt="my alt text"/>
 </figure>
 
-The data I got back showed that over 99% of my function calls were not using any stack memory, and the maximum stack size of my program was 784 bytes. 
+The data I got back showed that over **99%** of my function calls were not using any stack memory, and the maximum stack size of my program was **784 bytes**. 
 
 
 ### > Trying cppcheck / static analysis
@@ -236,29 +243,14 @@ The data I got back showed that over 99% of my function calls were not using any
   <img src="/images/fib/cppcheck.png" alt="my alt text"/>
 </figure>
 
-All cppcheck gives me is this, which is not at all useful. The parsing stage is not where the program is failing.
+I was expecting a more detailed analysis from cppcheck as to why my program was failing ( besides the obvious issue of course) and if there were any ways around it (besides memory management) but all it gave me was some commentary on the parser.
 
 
 ### > Conclusion
 
-I don't believe I've gotten to the root of the problem. There are still a lot of questions I need to investigate further to understand why this is happening. It might be a (seemingly) pointless issue to waste time on since
-there are already obvious solutions glaring at me. But my mind cannot reconcile yet. I am at least glad I got to try out all these tools and toys as a C++ performance noob.
-
-I should clean up my C++ implementation and try profiling the effects of memory pooling. I believe memory pooling will have an effect on heap allocations and might be partially suited to the tree-like nature of the
-fibonacci problem. This would make it easier to find the size of the pool and realloc when necessary.
-
-Hoping to dig deeper into this.
-
-
-### > Questions
-
-I would appreciate any answers to the following questions:
-
-1. Why do you think this is happening?
-2. Where do you think the root of this issue is from (stack, heap, ...) and why?
-3. Do you know of any profiling tools I can use for programs that crash like this (excluding GDB)?
-
-I would also appreciate any interesting commentary. Thank you!
+The JVM can be a performance wizard. Beats Rust by **10x** and C++ by **30x** in this scenario.
+<br />
+You should probably clean up your C++ code if you don't want it to get killed by the OS. Just saying. 
 
 
 ### > Footnotes (Screenshots)
