@@ -5,7 +5,7 @@ author: Dayo
 ---
 
 
-Some time ago, I followed Part II of [Crafting Interpreters](https://craftinginterpreters.com/) by Rob Nystrom and implemented a tree walk interpreter in C++ [link](https://github.com/owolabioromidayo/cpplox). I didn’t put any effort into performance or memory management as I just wanted it to work, which it did for all of the tests. 
+Some months ago, I followed Part II of [Crafting Interpreters](https://craftinginterpreters.com/) by Rob Nystrom and implemented a tree walk interpreter in C++ [link](https://github.com/owolabioromidayo/cpplox). I didn’t put any effort into performance or memory management as I just wanted it to work, which it did for all of the tests. 
 
 Except one. 
 
