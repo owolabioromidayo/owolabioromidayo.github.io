@@ -98,7 +98,7 @@ For comparison, my leaky C++ implementation utilized **117MB** on **fib(25)** wi
 
 ### > Why does it take so long.
 
-The time complexity of recursive fibonacci is `Φ^n ≈ 1.618^n`, `Φ` being the `golden ratio`. So `fib(40)` takes **1363.57x** more time to compute than `fib(25)`. This matches up with an expected compute time of **1.584s** for `fib(25)` . Given my lack of memory management, we can assume memory usage scales by the same amount if not more. This is why my leaky implmentation got killed by the program.
+The time complexity of recursive fibonacci is `Φ^n ≈ 1.618^n`, `Φ` being the `golden ratio`. So `fib(40)` takes **1363.57x** more time to compute than `fib(25)`. This matches up with an expected compute time of **1.584s** for `fib(25)` . Given my lack of memory management, we can assume memory usage scales by the same amount if not more. This is why my leaky implementation got killed by the program.
 
 ### > Java vs C++
 
