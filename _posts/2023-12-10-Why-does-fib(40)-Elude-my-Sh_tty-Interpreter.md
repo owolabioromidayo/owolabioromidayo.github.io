@@ -204,7 +204,7 @@ The JIT compromise for AOT compilation would be profile-guided optimization. Wha
 ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` to generate the executable for profiling, which I then ran with the preferred scenario ```./cpp_prof.out src/a.lox``` which generated a gcda file.
 The final executable was then generated ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` and it knew to use the corresponding gcda file for the executable name.
 
-While this worked for optimizing the specific example I gave it which was fib(30) from *21 secs* to *13 secs* , it obiously did not help my leaky implementation attain fib(40).
+While this worked for optimizing the specific example I gave it which was fib(30) from *21 secs* to *13 secs* , it did not help my leaky implementation attain fib(40).
 <br />
 
 <h5> 3. Changing allocators </h5>
