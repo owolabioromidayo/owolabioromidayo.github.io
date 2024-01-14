@@ -7,7 +7,7 @@ permalink: /about/
 
 
 <!-- ![profile](/images/im1.jpg){:height="300px"}  -->
-![profile](/images/me.jpg){:height="300px" style="display:block; margin-left:auto; margin-right:auto"}
+![profile](/images/profile.jpg){:height="300px" style="display:block; margin-left:auto; margin-right:auto"}
 
 
 
