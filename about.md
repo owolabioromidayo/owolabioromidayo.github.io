@@ -7,7 +7,7 @@ permalink: /about/
 
 
 <!-- ![profile](/images/im1.jpg){:height="300px"}  -->
-![profile](/images/profile.jpg){:height="300px" style="display:block; margin-left:auto; margin-right:auto"}
+![profile](/images/me_.jpg){:height="300px" style="display:block; margin-left:auto; margin-right:auto"}
 
 
 
@@ -24,7 +24,6 @@ Currently:
 * Reading large codebases.
 * Investigating performance bottlnecks in bioinformatics analysis.
 * Working on an EEG HW/SW project.
-* Looking for hardware and research projects.
 
 
 ***
