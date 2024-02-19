@@ -97,5 +97,20 @@ Implemented various graph query operations and a shell.
 <b>ZCamp</b>: Reddit but for universities. Written with Node.js/TS/GraphQL/PostgreSQL/Redis. [[Link]](https://github.com/zcamp-inc) [[Demo]](https://youtu.be/5iQ9Wb5UmXk)
 
 ***
+### Tracking
+
+I like tracking everything I consume.
+
+Books: [[Goodreads]](https://www.goodreads.com/user/show/92638712-void) 
+<br />
+Games: [[Backloggd]](https://www.backloggd.com/u/__void__/)
+<br />
+Movies: [[Letterboxd]](https://letterboxd.com/__void__/) 
+<br />
+Anime & Manga: [[MyAnimeList]](https://myanimelist.net/profile/__void__)
+<br />
+
+
+***
 ## Contact me
 [owolabioromidayo16@gmail.com](mailto:owolabioromidayo16@gmail.com)

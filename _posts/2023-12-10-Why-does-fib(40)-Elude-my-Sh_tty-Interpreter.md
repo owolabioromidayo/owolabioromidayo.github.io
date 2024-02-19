@@ -2,6 +2,7 @@
 layout: post
 title: Why Does fib(40) Elude My Sh*tty Interpreter??  
 author: Dayo
+category: Technical
 ---
 
 ### > TL;DR:

@@ -2,6 +2,7 @@
 layout: post
 title: The Art of Memory Palaces and Mental Visualization 
 author: Dayo
+category: Personal
 ---
 
 
