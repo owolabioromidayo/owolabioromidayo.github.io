@@ -4,21 +4,23 @@ layout: default
 permalink: /other/
 ---
 
-
+{% assign i = 0 %}
 
 <div class="posts">
   {% for post in site.posts %}
     {% if post.category == "Personal" %}
-    <article class="post">
+    <!-- <article class="post"> -->
+      {% assign i = i | plus: 1 %}
+      <p> {{i}}.  &nbsp;  <a style="text-decoration: none;" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a> </p>
 
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+      <!-- <div class="entry">
+        {{ post.content | strip_html | truncatewords: 50 }}
+      </div> -->
 
-      <div class="entry">
-        {{ post.excerpt }}
-      </div>
 
-      <a href="{{ site.baseurl }}{{ post.url }}" class="button button-primary">Read More</a>
-    </article>
+
+      <!-- <a href="{{ site.baseurl }}{{ post.url }}" class="button button-primary">Read More</a> -->
+    <!-- </article> -->
     {% endif %}
   {% endfor %}
 </div>

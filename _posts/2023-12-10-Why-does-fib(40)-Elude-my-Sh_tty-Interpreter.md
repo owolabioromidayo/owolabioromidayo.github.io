@@ -9,7 +9,7 @@ category: Technical
 C++ performance is hairy for tons of small object allocations / deallocations especially when the compiler cannot intuit what you are trying to do Ahead-of-Time. Memory pools might resolve this issue but for nested calls finding free objects to acquire is tougher. Rust also performs poorly in this scenario. The JVM is king at this kind of problem thanks to the JIT and Garbage Colector. 
 
 
-### ? Introduction
+### Introduction
 Some months ago, I decided to walk through a popular programming languages book called [Crafting Interpreters](https://craftinginterpreters.com) by Rob Nystrom. The book teaches you to build an interpreter for a dynamic language called Lox in Java. I followed along and wrote [my implementation](https://github.com/owolabioromidayo/cpplox) in C++, hoping for greater performance. 
 
 There are a couple common ways to structure interpreters i.e. bytecode, tree-walk, stack. Rob uses a **"tree-walk"** approach, where the parser transforms the code into a tree data structure. The interpreter then recursively walks each node in this tree and executes the corresponding commands.

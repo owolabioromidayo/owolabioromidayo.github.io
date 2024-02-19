@@ -1,0 +1,20 @@
+---
+layout: post
+title: "The Unabomber Manifesto: Industrial Society and Its Future" 
+author: Dayo
+category: Personal
+---
+
+![profile](/images/unabomber.jpg){:height="400px" style="display:block; margin-left:auto; margin-right:auto"}
+
+The Unabomber Manifesto: Industrial Society and Its Future, by the infamous Unabomber "Ted Kaczynski", talks about the ill fate of society's future if it continues on its current techno-centric path. Kaczynski argues that society as a whole is in a downward spiral due to technological events such as the industrial revolution and the rapid speed of development since then. He believes that man, now able to provide for his basic needs with ease, has lost all purpose and freedom as a result of the inability to partake in the power process.
+
+And what is the power process? The power process is a cycle of struggle and reward in which a person decides on a goal, puts in the necessary effort, and accomplishes that goal. According to Kaczynski, modern society has deprived us of the opportunity to engage in this process, making us dependent on society instead of being self-sufficient. Instead, we have taken on surrogate activities which cannot fully satisfy our need for struggle and reward, resulting in psycho-social problems such as depression and suicide.
+
+Kaczynski also delves into the dangers of pursuing surrogate activities and relying too heavily on technology. He argues that technology, regardless of its intentions, will ultimately lead to our downfall. He points out that opposition to technology never succeeds and that we continue to push the limits of development, further distancing ourselves from an ideal society. He predicts that this future society will include harmful advancements such as genetic engineering and an increase in the use of antidepressant drugs.
+
+He talks about how technological progress always wins out against the fight for freedom. He explains how this progress tightens our sphere of freedom. We see this in the evolution of cars, which didn't start off as a necessity, but now are important for daily activities. Before, all of a man's needs were located close to his home, but with the rise of technology, his freedom has been reduced. We can see this in the case of a lot of modern technologies which we can hardly function without such as our phones and laptops. These inventions came in stealthily and as choices but grew into something much more. Imagine if this became the case for virtual reality and brain-computer interfaces. Man's thoughts would not be his own again, even currently with tracking, data mining, and mass manipulation from big companies, we cannot even assert that man's thoughts are his anymore.
+
+Kaczynski believes that the only way to get out of this unending forward march into our ultimate destruction is to rebel. He presents a logical and structured plan for this rebellion, explaining why it is the only option. He also stresses that small acts of rebellion will not be enough to disrupt society and that people will have to die for the cause (whether for or against). He proposes blowing up economies, industries, and even people in order to spread the message and continue until all technology and means of restoration are eradicated.
+
+Despite the violent nature of his plan, Kaczynski's reasoning and actions appear rational. He seems trapped in the belief that rebellion is the only solution. I can understand his perspective and see parallels to the techno-dystopian futures he describes in his manifesto. In 1984, there is total surveillance and control of people's actions. Everything is regularly monitored and replaced, and children are brainwashed. Those who deviate from the norm are punished severely. In The Time Machine by H.G. Wells, the genetic code of humans has degraded to the point where they have become tiny, helpless creatures who rely on the technology created by their ancestors. If humanity manages to overcome its current challenges and make it to the year 2200, I fear that these kinds of realities will become our reality.
