@@ -99,13 +99,13 @@ For comparison, my leaky C++ implementation utilized **117MB** on **fib(25)** wi
 
 ### > Why does it take so long.
 
-The time complexity of recursive fibonacci is `Φ^n ≈ 1.618^n`, `Φ` being the `golden ratio`. So fib(40) takes **1363.57x** more time to compute than fib(25). This matches up with an expected compute time of **1.584s** to compute `fib(25)` . Given my lack of memory management, we can assume memory usage scales by the same amount if not more. This is why my leaky implmentation got killed by the program.
+The time complexity of recursive fibonacci is `Φ^n ≈ 1.618^n`, `Φ` being the `golden ratio`. So `fib(40)` takes **1363.57x** more time to compute than `fib(25)`. This matches up with an expected compute time of **1.584s** for `fib(25)` . Given my lack of memory management, we can assume memory usage scales by the same amount if not more. This is why my leaky implementation got killed by the program.
 
 ### > Java vs C++
 
 Now with that out of the way, the real question was to find why C++ performance lagged so far behind Java's.
 
-The two important differences between Java and C++ in this situation would be the JIT and GC. Since C++ uses Ahead-of-Time Compilation, and the only code presented to it doesn't hint anything about the nature of the programs that will be executed, it cannot outperform Java's Just In Time compilation system, which selectively compiles hot functions during execution. (more detail)
+The two important differences between Java and C++ in this situation would be the JIT and GC. Since C++ uses Ahead-of-Time Compilation, and the only code presented to it doesn't hint anything about the nature of the programs that will be executed, it cannot outperform Java's Just In Time compilation system, which selectively compiles hot functions during execution.
 
 The second important difference between Java and C++ would be garbage collection. In short, Java uses a mark and sweep algorithm for garbage collection during GC pauses and this fares well for mass alloc/dealloc of small objects while C++ requires manual management and temporary allocs/deallocs, especially on the heap are expensive, even more so for hundreds of objects. 
 
@@ -153,7 +153,7 @@ I was interested in how Rust would perform. Maybe they were trying to hide their
 The ```ClockCallable``` of the implementation was broken but that was fine. It computed fib(30) in less than 30 seconds. I almost gave up on fib(40) being computed but it finished after **12 minutes**.  
 To be fair I was expecting this a bit, as both Rust and C++ were AOT compiled and had the same GC methods (smart pointers vs lifetimes).
 
-The Rust implementation beat the clean C++ implementation by **3x**. This was the Rust release build against C++ with no optimization settings. So not completely fair.
+The Rust implementation beat the clean C++ implementation by **3x**. This was the Rust release build against C++ with no optimization settings. So not at all fair.
 
 
 ### > More analysis 
@@ -205,7 +205,7 @@ The JIT compromise for AOT compilation would be profile-guided optimization. Wha
 ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` to generate the executable for profiling, which I then ran with the preferred scenario ```./cpp_prof.out src/a.lox``` which generated a gcda file.
 The final executable was then generated ```g++ -O3 -fprofile-use src/main.cpp -o cpp_prof.out``` and it knew to use the corresponding gcda file for the executable name.
 
-While this worked for optimizing the specific example I gave it which was fib(30) from *21 secs* to *13 secs* , it obiously did not help my leaky implementation attain fib(40).
+While this worked for optimizing the specific example I gave it which was fib(30) from *21 secs* to *13 secs* , it did not help my leaky implementation attain fib(40).
 <br />
 
 <h5> 3. Changing allocators </h5>
@@ -226,10 +226,10 @@ I wanted to see if changing the stack size would have any effects on the program
   <img src="/images/fib/rlimits.png" alt="my alt text"/>
 </figure>
 
-I was able to change the program stack size using [rlimit](https://linux.die.net/man/2/setrlimit) which are linux syscalls for changing resource limits. I changed the soft limit to a whopping 600MB but it didn't affect my results.
+I was able to change the program stack size using [rlimit](https://linux.die.net/man/2/setrlimit) which are linux syscalls for changing resource limits. I changed the soft limit to a whopping **600MB** but it didn't affect my results.
 
 
-I tried out some stack analysis tools, using data I got from the ``` -fstack-usage -fdump-ipa-cgraph``` compilation flags and this (tool)[https://github.com/sharkfox/stack-usage]. 
+I tried out some stack analysis tools, using data I got from the ``` -fstack-usage -fdump-ipa-cgraph``` compilation flags and this [tool](https://github.com/sharkfox/stack-usage). 
 
 <figure>
   <img src="/images/fib/stack_analysis.png" alt="my alt text"/>

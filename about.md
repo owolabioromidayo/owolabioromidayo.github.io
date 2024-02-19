@@ -7,15 +7,15 @@ permalink: /about/
 
 
 <!-- ![profile](/images/im1.jpg){:height="300px"}  -->
-![profile](/images/me.jpg){:height="300px" style="display:block; margin-left:auto; margin-right:auto"}
+![profile](/images/nprof.jpg){:height="450px" style="display:block; margin-left:auto; margin-right:auto"}
 
 
 
 # Hello there!
 
-My name is Dayo. I am a 20 y/o recent grad of Computer Engineering. Highly interested in Software Engineering, Embedded Systems, ML, Hardware and Applied Maths. I am a very obsessive and persistent learner and enjoy diving down layers of abstraction and complexity. I want to build software that elevates human consciousness and capabilities.
+My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in Software Engineering, Embedded Systems, ML, Hardware and Applied Maths. I am a very obsessive and persistent learner and enjoy diving down layers of abstraction and complexity. I want to build software that elevates human consciousness and capabilities.
 
-[Résumé](/resume.pdf) &nbsp;  [Other Blog](https://halfassed.substack.com/archive?sort=new) &nbsp; ["Art"](https://voidptr420.artstation.com/albums/7865451) 
+[Résumé](/resume.pdf) &nbsp;  [Other Blog](https://halfassed.substack.com/archive?sort=new) &nbsp; ["Art"](https://voidptr420.artstation.com/albums/7865451)
 <br/>
 
     
@@ -24,12 +24,11 @@ Currently:
 * Reading large codebases.
 * Investigating performance bottlnecks in bioinformatics analysis.
 * Working on an EEG HW/SW project.
-* Looking for hardware and research projects.
 
 
 ***
 ## Experience
-* 2023: Bioinformatician, SIREN/SIBS-GENOMICS project.
+* 2023: Bioinformatician, Center for Genomics and Precision Medicine, University of Ibadan.
 * 2022: Engineering Intern, University of Ibadan Design Studio
 * 2021: Software Developer Intern, Fireswitch Technologies
 
@@ -88,6 +87,8 @@ Implemented various graph query operations and a shell.
 ### Other Projects
 
 <b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
+<br/>
+<br/>
 <b>QuasarPay </b>: Audio payment chatbot using whisper and DistillBERT. Autoencoders for Fraud Detection. [[Link]](https://github.com/QuasarPay)
 <br/>
 <br/>
