@@ -13,7 +13,7 @@ permalink: /about/
 
 # Hello there!
 
-My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in Software Engineering, Embedded Systems, ML, Hardware and Applied Maths. I am a very obsessive and persistent learner and enjoy diving down layers of abstraction and complexity. I want to build software that elevates human consciousness and capabilities.
+My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in Software Engineering, Embedded Systems, ML, Hardware and Applied Maths. 
 
 [Résumé](/resume.pdf) &nbsp;  [Other Writings](/other) &nbsp; ["Art"](https://voidptr420.artstation.com/albums/7865451)
 <br/>
