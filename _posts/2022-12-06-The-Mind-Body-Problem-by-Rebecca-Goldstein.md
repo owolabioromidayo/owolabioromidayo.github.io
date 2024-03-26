@@ -2,7 +2,7 @@
 layout: post
 title: The Mind Body Problem by Rebecca Goldstein
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 

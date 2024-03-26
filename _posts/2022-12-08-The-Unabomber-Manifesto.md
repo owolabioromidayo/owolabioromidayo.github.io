@@ -2,7 +2,7 @@
 layout: post
 title: "The Unabomber Manifesto: Industrial Society and Its Future" 
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 ![profile](/images/unabomber.jpg){:height="400px" style="display:block; margin-left:auto; margin-right:auto"}

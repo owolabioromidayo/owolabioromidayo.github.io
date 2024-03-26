@@ -2,7 +2,7 @@
 layout: post
 title: "Imaginative Realism: How to Paint what doesn't exist"  
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 

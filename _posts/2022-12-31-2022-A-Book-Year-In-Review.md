@@ -2,7 +2,7 @@
 layout: post
 title: "2022: A Book Year in Review" 
 author: Dayo
-category: Personal
+category: Main 
 ---
 
 According to my Goodreads account, I managed to read about 45 books this year. While maintaining my usual bursts in reading frequency, I still managed to get through some pages. I think what really helped me this time was having a good bunch of books I really wanted to get through, and even though I did not remain faithful to that original list, it gave me the drive to read more.

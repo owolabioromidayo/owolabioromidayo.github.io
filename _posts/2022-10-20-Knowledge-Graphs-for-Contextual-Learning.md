@@ -2,7 +2,7 @@
 layout: post
 title: Knowledge Graphs for Contextual Learning 
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 

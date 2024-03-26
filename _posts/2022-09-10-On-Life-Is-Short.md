@@ -2,7 +2,7 @@
 layout: post
 title: On Life is Short by Seneca 
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 

@@ -2,7 +2,7 @@
 layout: post
 title: The Death of Ivan Illych by Leo Tolstoy
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 The Death of Ivan Illych by Leo Tolstoy is a short story that revolves around the life of a man, Ivan Illych, and his spiral towards death.

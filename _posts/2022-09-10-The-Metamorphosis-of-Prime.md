@@ -2,7 +2,7 @@
 layout: post
 title: The Metamorphosis of Prime Intellect 
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 The Metamorphosis of Prime Intellect by Roger Williams is a dark, dirty novel about a man "Lawrence" who invented a sentient Artificial Intelligence "Prime Intellect" so powerful that it sought to rewrite the nature of the universe and the lives of the humans within it, creating a false utopia where the needs of people are met at all times to their own detriment, and a woman " Caroline Frances Hubert" who defies this omnipotent machine and utopia. The Prime Intellect bends nature to the will of the humans and creates a space for ultimate hedonism into eternity.

@@ -2,7 +2,7 @@
 layout: post
 title: Finding the Number of Edges in a Complete Graph 
 author: Dayo
-category: Personal
+category: Other 
 ---
 
 ### **METHOD 1 (GAUSS' LAW OF ADDITION)**
