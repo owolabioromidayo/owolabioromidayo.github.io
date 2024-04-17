@@ -111,6 +111,8 @@ Implemented various graph query operations and a shell. <br>
 N-Body simulation written using C, OpenGL for rendering, and OpenMP for parallelizing non-rendering tasks,
 as OpenGL is single-threaded.
 
+   [[Project Page]](https://github.com/owolabioromidayo/nbody_simulation)
+
 
 ***
 ### Other Projects
