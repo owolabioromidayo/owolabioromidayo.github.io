@@ -51,6 +51,7 @@ Currently:
 
    [[Project Page]](https://github.com/owolabioromidayo/yugodb)
 
+***
 ### LightBox
  
    ![profile](/images/lightbox.png){:width="60%"}
@@ -105,8 +106,10 @@ Implemented various graph query operations and a shell. <br>
 ***
 ### n_body_simulation
 
-   <video width="60%" src="https://github.com/owolabioromidayo/nbody_simulation/assets/37741645/02768d12-e0e2-49af-9e8a-c160e18c5777" controls></video>
-   <video width="60%" src="https://github.com/owolabioromidayo/nbody_simulation/assets/37741645/af1c185f-754c-426b-9e2a-1232d1e38310" controls></video>
+   <div align="center">
+      <video width="60%" src="https://github.com/owolabioromidayo/nbody_simulation/assets/37741645/02768d12-e0e2-49af-9e8a-c160e18c5777" controls></video>
+      <video width="60%" src="https://github.com/owolabioromidayo/nbody_simulation/assets/37741645/af1c185f-754c-426b-9e2a-1232d1e38310" controls></video>
+   </div>
 <br/>
 N-Body simulation written using C, OpenGL for rendering, and OpenMP for parallelizing non-rendering tasks,
 as OpenGL is single-threaded.
