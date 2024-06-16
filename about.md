@@ -43,12 +43,11 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 
 ### YugoDB
 
-   Developing a polymorphic database storage engine from scratch in Rust. <br>
-   Implemented a generic B+ tree index, a concurrent multi-file disk pager with a caching system. <br>
-   Wrote abstractions to support document-oriented, relational, row, and column databases, tables, pages, and records. <br>
-   Created a custom query language and interpreter, to support queries and joins across all storage types. <br>
-   Uses a dynamic set of closures as a vector materialization model, with support for predicate pushdown. <br>
-   Custom ser/deser methods for relational records.
+   Polymorphic database storage engine from scratch in Rust. <br>
+   Document, Relational, Row, and Column variants all supported, with JOINS across them. <br>
+   Generic B+ tree index, concurrent multi-file disk pager with a caching system. <br>
+   Custom query language and interpreter. <br>
+   Vector-based query materialization model using closures. <br>
 
    [[Project Page]](https://github.com/owolabioromidayo/yugodb)
 
@@ -60,12 +59,13 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
    
 
 <br/>
-   A federated queueing platform for GPU processing in AI photo editing applications written using Python, React.js, and Websockets. <br >
-   Implemented a GPU Client that runs txt/img2img, inpainting, outpainting, upscaling and removal operations. <br> 
-   Wrote a queueing server that connects GPU clients via WebSockets and handles task scheduling. <Br>
-   Wrote a frontend photo editing application using React.js which has a generalization layer to support models. <br> 
-   Wrote a server-server protocol for federation and trust-based priority scheduling for bad actor management. <br> 
-   Conducted simulations to profile the trust-based scheduling system on multiple federated queue servers. <br>
+   Federated queueing platform for GPU processing in AI photo editing applications. <br>
+   GPU Client that runs txt/img2img, inpainting, outpainting, upscaling and removal operations. <br> 
+   Queueing server connects GPU clients via WebSockets and handles task scheduling. <Br>
+   Server-Server federation protocol <br> 
+   Trust-based priority scheduling for bad actor management. <br> 
+   Simulations to profile trust-based scheduling parameters on multiple federated queue servers. <br>
+   Written using Python and React.js. <br >
 
    [[Project Page]](https://github.com/LightBox-Fed/)
 
@@ -88,19 +88,27 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
    </div>
 
 <br/>
-A Solar Weather Information Station written with FreeRTOS, C, Python, React.js, and Typescript. <br>
- Deployed a Self-Retraining Weather Prediction Service on AWS Lambda. <br>
-  Backend service written with Python, Flask and Heroku and dashboard with React.js. <br> 
-  Wrote ESP32 firmware code for sensor interfacing, power management and configurable WiFi. <br> 
-  Ported I2C Driver for the Si1145 sensor from C++ to C and wrote driver code for the GUVA-S12SD sensor. <br>
+   A Solar-Powered Weather Information Station <br>
+   Self-Retraining Weather Prediction Service deployed on AWS Lambda. <br>
+  Backend service written with Python, Flask and Heroku, and dashboard with React.js. <br> 
+   ESP32 firmware code for sensor interfacing, power management and configurable WiFi. <br> 
+   Ported I2C Driver for the Si1145 sensor from C++ to C. <br>
+   Wrote driver code for the GUVA-S12SD sensor. <br>
+   Embedded code written using C and FreeRTOS.   <br>
 
    [[Firmware]](https://github.com/owolabioromidayo/swiss_firm) [[Project Website]](https://sites.google.com/view/swiss-uidesign/home)
 
 
 
 ## MORE PROJECTS
+
+
 ***
-<b> FlexDB </b>: A Toy Document-Oriented in-memory Graph Database with JSON serialization written in C++ . [[Link]](https://github.com/owolabioromidayo/FlexDB) 
+
+<b> More information / diagrams, available in the GitHub READMEs.  </b>
+<br>
+
+<b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
 <br/>
 <br/>
 <b>n_body_simulation</b>: N-Body simulation written using C, OpenGL for rendering, and OpenMP. [[Link]](https://github.com/owolabioromidayo/nbody_simulation) 
@@ -109,7 +117,7 @@ A Solar Weather Information Station written with FreeRTOS, C, Python, React.js, 
 <b>rgb (WIP)</b>: 3D rigid body physics simulator in C++/OpenGL . [[Link]](https://github.com/owolabioromidayo/rgb) 
 <br/>
 <br/>
-<b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
+<b> FlexDB </b>: A Toy Document-Oriented in-memory Graph Database with JSON serialization written in C++ . [[Link]](https://github.com/owolabioromidayo/FlexDB) 
 <br/>
 <br/>
 <b>QuasarPay </b>: Audio payment chatbot using whisper and DistillBERT. Autoencoders for Fraud Detection. [[Link]](https://github.com/QuasarPay)
@@ -119,8 +127,8 @@ A Solar Weather Information Station written with FreeRTOS, C, Python, React.js, 
 <br/>
 <br/>
 <b>ZCamp</b>: Reddit but for universities. Written with Node.js/TS/GraphQL/PostgreSQL/Redis. [[Link]](https://github.com/zcamp-inc) [[Demo]](https://youtu.be/5iQ9Wb5UmXk)
-
-
+<br/>
+<br/>
 <b>image_printability_scoring</b>: AI system that rates pictures based on face, smiling and eye information, efficiently [[Link]](https://github.com/owolabioromidayo/image_printability_scoring)
 
 ***
