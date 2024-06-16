@@ -7,29 +7,28 @@ permalink: /about/
 
 
 <!-- ![profile](/images/im1.jpg){:height="300px"}  -->
-![profile](/images/nprof.jpg){:height="450px" style="display:block; margin-left:auto; margin-right:auto"}
+<!-- ![profile](/images/nprof.jpg){:height="450px" style="display:block; margin-left:auto; margin-right:auto"} -->
 
 
 
 # Hello there!
 
-My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in  Engineering, Embedded Systems, ML, Hardware and Applied Maths. 
+My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in Engineering, Embedded Systems, ML, Hardware, and Applied Maths. 
 
 [Résumé](/resume.pdf) &nbsp;  [Other Writings](/other) &nbsp; ["Art"](https://voidptr420.artstation.com/albums/7865451)
 <br/>
 
     
 ***
-Currently:
-* Reading large codebases.
+<b>Currently: </b>
 * Writing high performance code for bioinformatics analysis.
 * Writing a weird database storage engine from scratch in Rust.
-
+* Learning graphics and writing a rigid body simulator from scratch using C++/OpenGL.
 
 
 ***
 ## Experience
-* 2023: Bioinformatician, Center for Genomics and Precision Medicine, University of Ibadan.
+* 2023-Present: Bioinformatician, Center for Genomics and Precision Medicine, University of Ibadan.
 * 2022: Engineering Intern, University of Ibadan Design Studio
 * 2021: Software Developer Intern, Fireswitch Technologies
 
@@ -44,10 +43,12 @@ Currently:
 
 ### YugoDB
 
-
-   Developing a weird mixture of OLAP/OLTP database management system in Rust, combining features from document-oriented and relational databases, to be stored in column or row-oriented order. <br>
-   Implemented a B+ tree index and a multi-file pager for the database storage engine. <br>
-   Creating a custom language interpreter to support both document-oriented and relational queries and joins, which generates an AST that can be optimised over. <Br> Working on type checking the interpreter, an execution model, and a database abstraction model currently.
+   Developing a polymorphic database storage engine from scratch in Rust. <br>
+   Implemented a generic B+ tree index, a concurrent multi-file disk pager with a caching system. <br>
+   Wrote abstractions to support document-oriented, relational, row, and column databases, tables, pages, and records. <br>
+   Created a custom query language and interpreter, to support queries and joins across all storage types. <br>
+   Uses a dynamic set of closures as a vector materialization model, with support for predicate pushdown. <br>
+   Custom ser/deser methods for relational records.
 
    [[Project Page]](https://github.com/owolabioromidayo/yugodb)
 
@@ -60,10 +61,11 @@ Currently:
 
 <br/>
    A federated queueing platform for GPU processing in AI photo editing applications written using Python, React.js, and Websockets. <br >
-   Implemented a GPU Client that runs txt/img2img, inpainting, outpainting, upscaling and removal operations. Wrote a queueing server that connects GPU clients via WebSockets and handles task scheduling. <Br>
+   Implemented a GPU Client that runs txt/img2img, inpainting, outpainting, upscaling and removal operations. <br> 
+   Wrote a queueing server that connects GPU clients via WebSockets and handles task scheduling. <Br>
    Wrote a frontend photo editing application using React.js which has a generalization layer to support models. <br> 
    Wrote a server-server protocol for federation and trust-based priority scheduling for bad actor management. <br> 
-   Conducted simulations to profile the trust-based scheduling system on multiple federated queue servers.
+   Conducted simulations to profile the trust-based scheduling system on multiple federated queue servers. <br>
 
    [[Project Page]](https://github.com/LightBox-Fed/)
 
@@ -78,12 +80,13 @@ Currently:
       <div class="simage-container">
          <img src="/images/swiss.jpg" alt="Image 1">
       </div>
-      
+   
       <div class="simage-container">
          <img src="/images/swiss_view1.png" alt="Image 2">
       </div>
 
    </div>
+
 <br/>
 A Solar Weather Information Station written with FreeRTOS, C, Python, React.js, and Typescript. <br>
  Deployed a Self-Retraining Weather Prediction Service on AWS Lambda. <br>
@@ -94,32 +97,18 @@ A Solar Weather Information Station written with FreeRTOS, C, Python, React.js, 
    [[Firmware]](https://github.com/owolabioromidayo/swiss_firm) [[Project Website]](https://sites.google.com/view/swiss-uidesign/home)
 
 
-***
-### FlexDB
 
-   ![profile](/images/flexdb.png){:width="60%"}
+## MORE PROJECTS
+***
+<b> FlexDB </b>: A Toy Document-Oriented in-memory Graph Database with JSON serialization written in C++ . [[Link]](https://github.com/owolabioromidayo/FlexDB) 
 <br/>
-A Toy Document-Oriented in-memory Graph Database with JSON serialization written in C++ . <br>
-Wrote a Query Language Interpreter loosely based on the Gremlin Query Language. <br>
-Implemented various graph query operations and a shell. <br>
-
-***
-### n_body_simulation
-
-   <div align="center">
-      <video width="60%" src="https://github.com/owolabioromidayo/nbody_simulation/assets/37741645/02768d12-e0e2-49af-9e8a-c160e18c5777" controls></video>
-      <video width="60%" src="https://github.com/owolabioromidayo/nbody_simulation/assets/37741645/af1c185f-754c-426b-9e2a-1232d1e38310" controls></video>
-   </div>
 <br/>
-N-Body simulation written using C, OpenGL for rendering, and OpenMP for parallelizing non-rendering tasks,
-as OpenGL is single-threaded.
-
-   [[Project Page]](https://github.com/owolabioromidayo/nbody_simulation)
-
-
-***
-### Other Projects
-
+<b>n_body_simulation</b>: N-Body simulation written using C, OpenGL for rendering, and OpenMP. [[Link]](https://github.com/owolabioromidayo/nbody_simulation) 
+<br/>
+<br/>
+<b>rgb (WIP)</b>: 3D rigid body physics simulator in C++/OpenGL . [[Link]](https://github.com/owolabioromidayo/rgb) 
+<br/>
+<br/>
 <b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
 <br/>
 <br/>
