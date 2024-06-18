@@ -23,7 +23,6 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 <b>Currently: </b>
 * Writing high performance code for bioinformatics analysis.
 * Writing a weird database storage engine from scratch in Rust.
-* Learning graphics and writing a rigid body simulator from scratch using C++/OpenGL.
 
 
 ***
@@ -35,7 +34,7 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 ***
     
 ## Education
-* Bachelors of Engineering in Computer Engineering from [Covenant University, Nigeria](https://covenantuniversity.edu.ng/) (First Class).
+* 2018- 2023: B.Eng Computer Engineering from [Covenant University, Nigeria](https://covenantuniversity.edu.ng/) [<b>4.79</b>/5.00].
 
 ***
 ## Projects
@@ -91,7 +90,7 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
    A Solar-Powered Weather Information Station <br>
    Self-Retraining Weather Prediction Service deployed on AWS Lambda. <br>
   Backend service written with Python, Flask and Heroku, and dashboard with React.js. <br> 
-   ESP32 firmware code for sensor interfacing, power management and configurable WiFi. <br> 
+   ESP32 firmware code for sensor interfacing, power management, and configurable WiFi. <br> 
    Ported I2C Driver for the Si1145 sensor from C++ to C. <br>
    Wrote driver code for the GUVA-S12SD sensor. <br>
    Embedded code written using C and FreeRTOS.   <br>
@@ -111,22 +110,22 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 <b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
 <br/>
 <br/>
-<b>n_body_simulation</b>: N-Body simulation written using C, OpenGL for rendering, and OpenMP. [[Link]](https://github.com/owolabioromidayo/nbody_simulation) 
-<br/>
-<br/>
-<b>rgb (WIP)</b>: 3D rigid body physics simulator in C++/OpenGL . [[Link]](https://github.com/owolabioromidayo/rgb) 
-<br/>
-<br/>
-<b> FlexDB </b>: A Toy Document-Oriented in-memory Graph Database with JSON serialization written in C++ . [[Link]](https://github.com/owolabioromidayo/FlexDB) 
-<br/>
-<br/>
-<b>QuasarPay </b>: Audio payment chatbot using whisper and DistillBERT. Autoencoders for Fraud Detection. [[Link]](https://github.com/QuasarPay)
+<b>ZCamp</b>: Reddit but for universities. Written with Node.js/TS/GraphQL/PostgreSQL/Redis. [[Link]](https://github.com/zcamp-inc) [[Demo]](https://youtu.be/5iQ9Wb5UmXk)
 <br/>
 <br/>
 <b>SLAMBot</b>: 4WD robot with web interface for control and video. Line following overlays and Person tracking using YoloV4. [Link](https://github.com/owolabioromidayo/SLAMBot) 
 <br/>
 <br/>
-<b>ZCamp</b>: Reddit but for universities. Written with Node.js/TS/GraphQL/PostgreSQL/Redis. [[Link]](https://github.com/zcamp-inc) [[Demo]](https://youtu.be/5iQ9Wb5UmXk)
+<b> FlexDB </b>: A toy in-memory graph database written in C++ . [[Link]](https://github.com/owolabioromidayo/FlexDB) 
+<br/>
+<br/>
+<b>QuasarPay </b>: Audio payment chatbot using whisper and DistillBERT. Autoencoders for Fraud Detection. [[Link]](https://github.com/QuasarPay)
+<br/>
+<br/>
+<b>n_body_simulation</b>: N-Body simulation written using C/OpenGL/OpenMP. [[Link]](https://github.com/owolabioromidayo/nbody_simulation) 
+<br/>
+<br/>
+<b>rgb (WIP)</b>: 3D rigid body physics simulator in C++/OpenGL . [[Link]](https://github.com/owolabioromidayo/rgb) 
 <br/>
 <br/>
 <b>image_printability_scoring</b>: AI system that rates pictures based on face, smiling and eye information, efficiently [[Link]](https://github.com/owolabioromidayo/image_printability_scoring)
