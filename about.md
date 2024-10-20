@@ -107,7 +107,8 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 ***
 
 <b> More information / diagrams, available in the GitHub READMEs.  </b>
-<br>
+<br><br>
+
 <b>Ojami</b>: Typescript backend for an ecommerce platform with wallets, payment integration, AI shopping assistant, and voucher system. [[Link 1]](https://github.com/owolabioromidayo/ojami) [[Link 2]](https://github.com/owolabioromidayo/ojami-paystack)
 <br/>
 
