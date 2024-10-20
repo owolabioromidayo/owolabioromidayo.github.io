@@ -15,6 +15,8 @@ permalink: /about/
 
 My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in Engineering, Embedded Systems, ML, Hardware, and Applied Maths. 
 
+<b> Last Updated: Oct 20, 2024 </b>
+
 [Résumé](/resume.pdf) &nbsp;  [Other Writings](/other) &nbsp; ["Art"](https://voidptr420.artstation.com/albums/7865451)
 <br/>
 
@@ -27,7 +29,7 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 
 ***
 ## Experience
-* 2023-Present: Bioinformatician, Center for Genomics and Precision Medicine, University of Ibadan.
+* 2023-2024: Bioinformatician, Center for Genomics and Precision Medicine, University of Ibadan.
 * 2022: Engineering Intern, University of Ibadan Design Studio
 * 2021: Software Developer Intern, Fireswitch Technologies
 
@@ -106,6 +108,8 @@ My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested 
 
 <b> More information / diagrams, available in the GitHub READMEs.  </b>
 <br>
+<b>Ojami</b>: Typescript backend for an ecommerce platform with wallets, payment integration, AI shopping assistant, and voucher system. [[Link 1]](https://github.com/owolabioromidayo/ojami) [[Link 2]](https://github.com/owolabioromidayo/ojami-paystack)
+<br/>
 
 <b>Cpplox</b>: Tree-walk interpreter for Lox in C++. [[Link]](https://github.com/owolabioromidayo/cpplox)
 <br/>
