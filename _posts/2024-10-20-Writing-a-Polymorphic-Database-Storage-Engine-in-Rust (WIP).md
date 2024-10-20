@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Writing a Polymorphic Database Engine in Rust.
+title: Writing a Polymorphic Database Engine in Rust (WIP)
 author: Dayo
 category: Main 
 ---
