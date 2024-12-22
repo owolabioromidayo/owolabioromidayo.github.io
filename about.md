@@ -13,9 +13,9 @@ permalink: /about/
 
 # Hello there!
 
-My name is Dayo. I am a 20 y/o Computer Engineering graduate. Highly interested in Engineering, Embedded Systems, ML, Hardware, and Applied Maths. 
+My name is Dayo. I am a 21 y/o Computer Engineering graduate. Highly interested in Engineering, Embedded Systems, ML, Hardware, and Applied Maths. 
 
-<b> Last Updated: Oct 20, 2024 </b>
+<b> Last Updated: Dec 22, 2024 </b>
 
 [Résumé](/resume.pdf) &nbsp;  [Other Writings](/other) &nbsp; ["Art"](https://voidptr420.artstation.com/albums/7865451)
 <br/>
