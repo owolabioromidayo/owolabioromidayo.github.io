@@ -1,8 +1,8 @@
 ---
 layout: post
 title: Optimizing my Database Engine Pt 1
-author:L Dayo
-category: Main 
+author: Dayo
+category: Main
 ---
 
 A while back, [I wrote a toy polymorphic database engine in Rust](/Writing-a-Polymorphic-Database-Storage-Engine-in-Rust/). It's purpose was to enable
