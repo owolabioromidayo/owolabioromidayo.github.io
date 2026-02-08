@@ -152,7 +152,7 @@ Algorithm choice matters more than micro-optimizations. Going from O(MN) to O(P)
 
 Profile before optimizing. I assumed suffix array construction was the main bottleneck. Turns out FM-Index construction was equally as bad.
 
-The Occ sample rate thing. I didn't understand what the Occ sample rate was really doing until I implemented it. It's a checkpoint system - you don't need to store counts at every position, just sample periodically and calculate intermediate values on the fly.
+The Occ sample rate thing. I didn't understand what the Occ sample rate was really doing until I implemented it. It's a checkpoint system  so we don't store counts at every position, we can just sample periodically and calculate intermediate values on the fly.
 
 ## Conclusion
 
@@ -160,7 +160,9 @@ There's still work to do, memory optimizations, parallelization, SAM output. But
 This was a pretty fun project to learn about the weirdly performant data structures in bioinformatics.
 
 For those interested in the implementation details, the complete source code with SA-IS suffix array construction, FM-Index implementation, and approximate matching is available at [github.com/owolabioromidayo/bwa/](https://github.com/owolabioromidayo/bwa/).
+
 ---
+
 
 ## References
 
